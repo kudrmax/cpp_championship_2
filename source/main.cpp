@@ -82,25 +82,62 @@ int partision(int first, int second, std::vector<int>& arr) {
 void qsort(int first, int second, std::vector<int>& arr) {
     if (first < second) {
         auto p = partision(first, second, arr);
-        if (p == -1)
-            return;
+//        if (p == -1)
+//            return;
         qsort(first, p - 1, arr);
         qsort(p + 1, second, arr);
     }
 }
 
+template<typename It>
+std::pair<It, bool> partision(It first, It second) {
+    auto n = second - first;
+    if (n == 0)
+        return {first, false};
+    auto pivot = *second;
+
+    auto i = first - 1;
+
+    for (auto j = first; j != second; ++j) {
+        if (*j <= pivot) {
+            i += 1;
+            if (j != i) {
+                std::swap(*i, *j);
+            }
+        }
+    }
+    std::swap(*(i + 1), *second);
+    return {i + 1, true};
+}
+
+template<typename It>
+void qsort(It first, It second) {
+    // передавай указатель на последний, а не на после последнего
+    if (first < second) {
+        auto [p, flag] = partision(first, second);
+        if (!flag)
+            return;
+        qsort(first, p - 1);
+        qsort(p + 1, second);
+    }
+}
+
 
 int main() {
-//    std::vector<int> vec = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
-//    std::vector<int> vec = { 3, 1, 2, 4, 5 };
-    std::vector<int> vec = { 5, 4, 4, 4, 3, 2, 1, 0, -1 };
-    print_vector(vec);
+    std::vector<int> vec1 = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
+    std::vector<int> vec2 = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
+//    std::vector<int> vec = { 3, 1, 2, 4, 5, 2 };
+//    std::vector<int> vec = { 5, 4, 4, 4, 3, 2, 1, 0, -1 };
+    print_vector(vec1);
+    print_vector(vec2);
 //    insertion_sort<std::vector<int>::iterator>(vec.begin(), vec.end());
 //    insertion_sort(0, vec.size(), vec);
 //    heapsort(0, vec.size(), vec);
 //    heapsort<std::vector<int>::iterator>(vec.begin(), vec.end());
-    qsort(0, vec.size() - 1, vec);
-    print_vector(vec);
+    qsort(0, vec1.size() - 1, vec1);
+    qsort<std::vector<int>::iterator>(vec2.begin(), vec2.end() - 1);
+    print_vector(vec1);
+    print_vector(vec2);
 
     return 0;
 }
