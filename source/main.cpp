@@ -41,7 +41,13 @@ void insertion_sort(It first, It second) {
 }
 
 template<typename It>
-void heapsort(It first, It second);
+void heapsort(It first, It second) {
+    std::make_heap(first, second);
+    for (auto i = second; i != first; --i) {
+        std::swap(*first, *(i - 1));
+        std::make_heap(first, i - 1); // @todo написать свой make_heap
+    }
+}
 
 
 void heapsort(int first, int second, std::vector<int>& arr) {
@@ -49,18 +55,17 @@ void heapsort(int first, int second, std::vector<int>& arr) {
     auto n = second - first;
     for (int i = n - 1; i >= 0; --i) {
         std::swap(arr[0], arr[i]);
-        std::make_heap(arr.end() - i, arr.end());
+        std::make_heap(arr.begin(), arr.begin() + i); // @todo написать свой make_heap
     }
 }
 
 int main() {
-//    std::cout <<  << std::endl;
-//    std::vector<int> vec = { 1, 2, 6, 5, 4 };
     std::vector<int> vec = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
     print_vector(vec);
 //    insertion_sort<std::vector<int>::iterator>(vec.begin(), vec.end());
 //    insertion_sort(0, vec.size(), vec);
-    heapsort(0, vec.size(), vec);
+//    heapsort(0, vec.size(), vec);
+//    heapsort<std::vector<int>::iterator>(vec.begin(), vec.end());
     print_vector(vec);
 
     return 0;
