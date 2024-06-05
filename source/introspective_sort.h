@@ -23,8 +23,8 @@ void heapsort(It first, It second, Compare comp) {
 }
 
 
-template<typename It>
-It partision(It first, It second) {
+template<typename It, typename Compare>
+It partision(It first, It second, Compare comp) {
     auto n = second - first;
     if (n == 0)
         return first;
@@ -33,7 +33,7 @@ It partision(It first, It second) {
     auto i = first - 1;
 
     for (auto j = first; j != second; ++j) {
-        if (*j <= pivot) {
+        if (comp(*j, pivot)) {
             i += 1;
             if (j != i) {
                 std::swap(*i, *j);
@@ -65,7 +65,7 @@ void introspective_sort_recursive(It first, It second, Compare comp, int max_dep
     else {
         if (iteration == 0)
             second -= 1;
-        auto p = partision(first, second);
+        auto p = partision(first, second, comp);
         introspective_sort_recursive(first, p - 1, comp, max_depth - 1, iteration + 1);
         introspective_sort_recursive(p + 1, second, comp, max_depth - 1, iteration + 1);
     }
@@ -73,5 +73,5 @@ void introspective_sort_recursive(It first, It second, Compare comp, int max_dep
 
 template<typename It, typename Compare>
 void introspective_sort(It first, It second, Compare comp) {
-    introspective_sort_recursive<It, Compare>(first, second, comp, 2 * std::log(second - first), 0);
+    introspective_sort_recursive<It, Compare>(first, second, comp, 2 * std::log2(second - first), 0);
 }
