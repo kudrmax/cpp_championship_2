@@ -120,6 +120,11 @@ void introspective_sort_recursive(It first, It second, int max_depth, int iterat
     }
 }
 
+template<typename It>
+void introspective_sort(It first, It second) {
+    introspective_sort_recursive<It>(first, second, 2 * std::log(second - first), 0);
+}
+
 //template<typename It>
 //void introspective_sort_recursive(It first, It second, int max_depth) {
 //    if (first < second) {
@@ -131,10 +136,10 @@ void introspective_sort_recursive(It first, It second, int max_depth, int iterat
 
 
 int main() {
-    std::vector<int> vec1 = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
+//    std::vector<int> vec1 = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
 //    std::vector<int> vec2 = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
 //    std::vector<int> vec = { 3, 1, 2, 4, 5, 2 };
-//    std::vector<int> vec = { 5, 4, 4, 4, 3, 2, 1, 0, -1 };
+    std::vector<int> vec1 = { 5, 4, 4, 4, 3, 2, 1, 0, -1 };
     print_vector(vec1);
 //    print_vector(vec2);
 //    insertion_sort<std::vector<int>::iterator>(vec.begin(), vec.end());
@@ -144,7 +149,8 @@ int main() {
 //    qsort(0, vec1.size() - 1, vec1);
 //    qsort<std::vector<int>::iterator>(vec2.begin(), vec2.end() - 1);
 
-    introspective_sort_recursive<std::vector<int>::iterator>(vec1.begin(), vec1.end(), 2 * std::log(vec1.size()), 0);
+//    introspective_sort_recursive<std::vector<int>::iterator>(vec1.begin(), vec1.end(), 2 * std::log(vec1.size()), 0);
+    introspective_sort<std::vector<int>::iterator>(vec1.begin(), vec1.end());
 
 
     print_vector(vec1);
