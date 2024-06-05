@@ -1,9 +1,8 @@
 #include <algorithm>
 
 
-template<typename It, typename Compare>
-void insertion_sort(It first, It second, Compare comp) {
-    size_t n = second - first;
+template<class RandomIt, class Compare>
+void insertion_sort(RandomIt first, RandomIt second, Compare comp) {
     for (auto i = std::next(first); i != second; i = std::next(i)) {
         auto j = i;
         while (j != first && comp(*j, *(j - 1))) {
@@ -13,8 +12,8 @@ void insertion_sort(It first, It second, Compare comp) {
     }
 }
 
-template<typename It, typename Compare>
-void heapsort(It first, It second, Compare comp) {
+template<class RandomIt, class Compare>
+void heapsort(RandomIt first, RandomIt second, Compare comp) {
     std::make_heap(first, second, comp);
     for (auto i = second; i != first; --i) {
         std::swap(*first, *(i - 1));
@@ -23,8 +22,8 @@ void heapsort(It first, It second, Compare comp) {
 }
 
 
-template<typename It, typename Compare>
-It partision(It first, It second, Compare comp) {
+template<class RandomIt, class Compare>
+RandomIt partision(RandomIt first, RandomIt second, Compare comp) {
     auto n = second - first;
     if (n == 0)
         return first;
@@ -45,8 +44,8 @@ It partision(It first, It second, Compare comp) {
 }
 
 
-//template<typename It>
-//void qsort(It first, It second) {
+//template<class RandomIt>
+//void qsort(RandomIt first, RandomIt second) {
 //    if (first < second) {
 //        auto p = partision(first, second);
 //        qsort(first, p - 1);
@@ -55,8 +54,8 @@ It partision(It first, It second, Compare comp) {
 //}
 
 
-template<typename It, typename Compare>
-void introspective_sort_recursive(It first, It second, Compare comp, int max_depth, int iteration) {
+template<class RandomIt, class Compare>
+void introspective_sort_recursive(RandomIt first, RandomIt second, Compare comp, int max_depth, int iteration) {
     size_t n = second - first;
     if (n <= 16)
         insertion_sort(first, second, comp);
@@ -71,7 +70,7 @@ void introspective_sort_recursive(It first, It second, Compare comp, int max_dep
     }
 }
 
-template<typename It, typename Compare>
-void introspective_sort(It first, It second, Compare comp) {
-    introspective_sort_recursive<It, Compare>(first, second, comp, 2 * std::log2(second - first), 0);
+template<class RandomIt, class Compare>
+void introspective_sort(RandomIt first, RandomIt second, Compare comp) {
+    introspective_sort_recursive<RandomIt, Compare>(first, second, comp, 2 * std::log2(second - first), 0);
 }
