@@ -75,7 +75,7 @@ template<typename It>
 std::pair<It, bool> partision(It first, It second) {
     auto n = second - first;
     if (n == 0)
-        return {first, false};
+        return { first, false };
     auto pivot = *second;
 
     auto i = first - 1;
@@ -89,7 +89,7 @@ std::pair<It, bool> partision(It first, It second) {
         }
     }
     std::swap(*(i + 1), *second);
-    return {i + 1, true};
+    return { i + 1, true };
 }
 
 
@@ -106,24 +106,30 @@ void qsort(It first, It second) {
 }
 
 
+template<typename It>
+void introspective_sort_recursive(It first, It second, int max_depth, int iteration) {
+    size_t n = second - first;
+    if (n <= 16)
+        insertion_sort(first, second);
+    else if (max_depth == 0)
+        heapsort(first, second);
+    else {
+        if (iteration == 0)
+            second -= 1;
+        auto [p, flag] = partision(first, second);
+        introspective_sort_recursive(first, p - 1, max_depth - 1, iteration + 1);
+        introspective_sort_recursive(p + 1, second, max_depth - 1, iteration + 1);
+    }
+}
+
 //template<typename It>
 //void introspective_sort_recursive(It first, It second, int max_depth) {
-//    size_t n = second - first;
-//    if (n <= 16)
-//        insertion_sort(first, second);
-//    else if (max_depth == 0)
-//        heapsort(first, second);
-//    else {
+//    if (first < second) {
 //        auto [p, flag] = partision(first, second);
 //        introspective_sort_recursive(first, p - 1, max_depth - 1);
 //        introspective_sort_recursive(p + 1, second, max_depth - 1);
 //    }
 //}
-
-template<typename It>
-void introspective_sort_recursive(It first, It second, int max_depth) {
-    insertion_sort<It>(first, second);
-}
 
 
 int main() {
@@ -140,7 +146,7 @@ int main() {
 //    qsort(0, vec1.size() - 1, vec1);
 //    qsort<std::vector<int>::iterator>(vec2.begin(), vec2.end() - 1);
 
-    introspective_sort_recursive<std::vector<int>::iterator>(vec1.begin(), vec1.end(), 2 * std::log(vec1.size()));
+    introspective_sort_recursive<std::vector<int>::iterator>(vec1.begin(), vec1.end(), 2 * std::log(vec1.size()), 0);
 
 
     print_vector(vec1);
