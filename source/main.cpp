@@ -40,44 +40,27 @@ void insertion_sort(It first, It second) {
     }
 }
 
-void insertion_sort(int first, int second, std::vector<int>& vec) {
-    size_t n = second - first;
-    for (int i = 1; i < n; ++i) {
-        auto j = i;
-        while (j > 0 && vec[j] < vec[j - 1]) {
-            std::swap(vec[j], vec[j - 1]);
-            j -= 1;
-        }
-    }
-
-
-//    for (int i_pivot = 1; i_pivot < n; ++i_pivot) {
-//        auto i = i_pivot - 1;
-//        while (i >= 0 && vec[i] > vec[i_pivot])
-//            i -= 1;
-//        std::swap(vec[i], vec[i_pivot]);
-//    }
-//    for (auto it_pivot = std::next(first); it_pivot != second; it_pivot = std::next(it_pivot)) {
-//        auto it = std::prev(it_pivot);
-//        while (*it_pivot > *it)
-//            it = std::prev(it);
-//        std::swap(*it_pivot, *it);
-//    }
-    print_vector(vec);
-}
-
-
 template<typename It>
 void heapsort(It first, It second);
 
+
+void heapsort(int first, int second, std::vector<int>& arr) {
+    std::make_heap(arr.begin(), arr.end());
+    auto n = second - first;
+    for (int i = n - 1; i >= 0; --i) {
+        std::swap(arr[0], arr[i]);
+        std::make_heap(arr.end() - i, arr.end());
+    }
+}
 
 int main() {
 //    std::cout <<  << std::endl;
 //    std::vector<int> vec = { 1, 2, 6, 5, 4 };
     std::vector<int> vec = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
     print_vector(vec);
-    insertion_sort<std::vector<int>::iterator>(vec.begin(), vec.end());
+//    insertion_sort<std::vector<int>::iterator>(vec.begin(), vec.end());
 //    insertion_sort(0, vec.size(), vec);
+    heapsort(0, vec.size(), vec);
     print_vector(vec);
 
     return 0;
