@@ -4,7 +4,7 @@
 
 void print_vector(const std::vector<int>& vec) {
     for (const auto& n: vec) {
-        std::cout << n;
+        std::cout << n << ' ';
     }
     std::cout << std::endl;
 }
@@ -31,11 +31,12 @@ void introspective_sort_recursive(It first, It second, int max_depth) {
 template<typename It>
 void insertion_sort(It first, It second) {
     size_t n = second - first;
-    for (auto it_pivot = std::next(first); it_pivot != second; it_pivot = std::next(it_pivot)) {
-        auto it = std::prev(it_pivot);
-        while (*it_pivot > *it)
-            it = std::prev(it);
-        std::swap(*it_pivot, *it);
+    for (auto i = std::next(first); i != second; i = std::next(i)) {
+        auto j = i;
+        while (j != first && *j < *(j - 1)) {
+            std::swap(*j, *(j - 1));
+            j = std::prev(j);
+        }
     }
 }
 
@@ -72,10 +73,11 @@ void heapsort(It first, It second);
 
 int main() {
 //    std::cout <<  << std::endl;
-    std::vector<int> vec = { 1, 2, 6, 5, 4 };
+//    std::vector<int> vec = { 1, 2, 6, 5, 4 };
+    std::vector<int> vec = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
     print_vector(vec);
-//    insertion_sort<std::vector<int>::iterator>(vec.begin(), vec.end());
-    insertion_sort(0, vec.size(), vec);
+    insertion_sort<std::vector<int>::iterator>(vec.begin(), vec.end());
+//    insertion_sort(0, vec.size(), vec);
     print_vector(vec);
 
     return 0;
