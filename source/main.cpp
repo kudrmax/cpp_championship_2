@@ -9,24 +9,6 @@ void print_vector(const std::vector<int>& vec) {
     std::cout << std::endl;
 }
 
-template<typename It>
-void introspective_sort(It first, It second) {
-    auto max_depth = 2 * std::log(second - first);
-    introspective_sort_recursive(first, second, max_depth);
-
-}
-
-template<typename It>
-void introspective_sort_recursive(It first, It second, int max_depth) {
-    size_t n = second - first;
-    if (n <= 16)
-        insertion_sort(first, second);
-    else if (max_depth == 0)
-        heapsort(first, second);
-    else {
-        // qsort
-    }
-}
 
 template<typename It>
 void insertion_sort(It first, It second) {
@@ -110,6 +92,7 @@ std::pair<It, bool> partision(It first, It second) {
     return {i + 1, true};
 }
 
+
 template<typename It>
 void qsort(It first, It second) {
     // передавай указатель на последний, а не на после последнего
@@ -123,21 +106,45 @@ void qsort(It first, It second) {
 }
 
 
+//template<typename It>
+//void introspective_sort_recursive(It first, It second, int max_depth) {
+//    size_t n = second - first;
+//    if (n <= 16)
+//        insertion_sort(first, second);
+//    else if (max_depth == 0)
+//        heapsort(first, second);
+//    else {
+//        auto [p, flag] = partision(first, second);
+//        introspective_sort_recursive(first, p - 1, max_depth - 1);
+//        introspective_sort_recursive(p + 1, second, max_depth - 1);
+//    }
+//}
+
+template<typename It>
+void introspective_sort_recursive(It first, It second, int max_depth) {
+    insertion_sort<It>(first, second);
+}
+
+
 int main() {
     std::vector<int> vec1 = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
-    std::vector<int> vec2 = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
+//    std::vector<int> vec2 = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
 //    std::vector<int> vec = { 3, 1, 2, 4, 5, 2 };
 //    std::vector<int> vec = { 5, 4, 4, 4, 3, 2, 1, 0, -1 };
     print_vector(vec1);
-    print_vector(vec2);
+//    print_vector(vec2);
 //    insertion_sort<std::vector<int>::iterator>(vec.begin(), vec.end());
 //    insertion_sort(0, vec.size(), vec);
 //    heapsort(0, vec.size(), vec);
 //    heapsort<std::vector<int>::iterator>(vec.begin(), vec.end());
-    qsort(0, vec1.size() - 1, vec1);
-    qsort<std::vector<int>::iterator>(vec2.begin(), vec2.end() - 1);
+//    qsort(0, vec1.size() - 1, vec1);
+//    qsort<std::vector<int>::iterator>(vec2.begin(), vec2.end() - 1);
+
+    introspective_sort_recursive<std::vector<int>::iterator>(vec1.begin(), vec1.end(), 2 * std::log(vec1.size()));
+
+
     print_vector(vec1);
-    print_vector(vec2);
+//    print_vector(vec2);
 
     return 0;
 }
