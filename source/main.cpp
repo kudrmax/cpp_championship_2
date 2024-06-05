@@ -63,7 +63,7 @@ int partision(int first, int second, std::vector<int>& arr) {
     auto n = second - first;
     if (n == 0)
         return -1;
-    auto pivot = arr[first];
+    auto pivot = arr[second];
 
     int i = first - 1;
 
@@ -85,20 +85,21 @@ void qsort(int first, int second, std::vector<int>& arr) {
         if (p == -1)
             return;
         qsort(first, p - 1, arr);
-        qsort(p, second, arr);
+        qsort(p + 1, second, arr);
     }
 }
 
 
 int main() {
 //    std::vector<int> vec = { 6, 1, 6, 8, 0, 2, 5, 2, 10, 3, 4 };
-    std::vector<int> vec = { 3, 1, 2, 4, 5 };
+//    std::vector<int> vec = { 3, 1, 2, 4, 5 };
+    std::vector<int> vec = { 5, 4, 4, 4, 3, 2, 1, 0, -1 };
     print_vector(vec);
 //    insertion_sort<std::vector<int>::iterator>(vec.begin(), vec.end());
 //    insertion_sort(0, vec.size(), vec);
 //    heapsort(0, vec.size(), vec);
 //    heapsort<std::vector<int>::iterator>(vec.begin(), vec.end());
-    qsort(0, vec.size(), vec);
+    qsort(0, vec.size() - 1, vec);
     print_vector(vec);
 
     return 0;
