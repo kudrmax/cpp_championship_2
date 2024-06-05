@@ -63,27 +63,20 @@ int partision(int first, int second, std::vector<int>& arr) {
     auto n = second - first;
     if (n == 0)
         return -1;
-    auto pivot = first;
-    auto pivot_val = arr[pivot];
+    auto pivot = arr[first];
 
-//    std::vector<int> left_arr;
-//    std::vector<int> right_arr;
-//    for (int i = first; i < second; ++i) {
-//        if (arr[i] < pivot)
-//            left_arr.push_back(arr[i])
-//    }
+    int i = first - 1;
 
-    int p1 = first;
-    int p2 = second - 1;
-    while (p1 < p2) {
-        while (p1 < n - 1 && arr[p1] < pivot_val)
-            p1 += 1;
-        while (p2 > 0 && arr[p2] > pivot_val)
-            p2 -= 1;
-        std::swap(arr[p1], arr[p2]);
+    for (int j = first; j < second; ++j) {
+        if (arr[j] <= pivot) {
+            i += 1;
+            if (j != i) {
+                std::swap(arr[i], arr[j]);
+            }
+        }
     }
-
-    return pivot;
+    std::swap(arr[i + 1], arr[second]);
+    return i + 1;
 }
 
 void qsort(int first, int second, std::vector<int>& arr) {
