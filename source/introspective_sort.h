@@ -1,5 +1,49 @@
 #include <algorithm>
+#include <vector>
 
+
+//void heap_up(int i, std::vector<int>& arr) {
+//    while (arr[i] < arr[(i - 1) / 2]) {
+//        std::swap(arr[i], arr[(i - 1) / 2]);
+//        i = (i - 1) / 2;
+//    }
+//}
+//
+//void make_heap(int first, int second, std::vector<int>& arr) {
+//    for (int i = 1; i < second - first; ++i) {
+//        heap_up(i, arr);
+//    }
+//}
+
+void heapify(int i, int n, std::vector<int>& arr) {
+
+    auto largest = i;
+
+    int l = 2 * largest + 1;
+    int r = 2 * largest + 2;
+
+    if (l < n && arr[l] > arr[largest]) {
+        largest = l;
+    }
+
+    if (r < n && arr[r] > arr[largest]) {
+        largest = r;
+    }
+
+    if (largest != i) {
+        std::swap(arr[largest], arr[i]);
+
+        heapify(largest, n, arr);
+    }
+}
+
+template<class RandomIt, class Compare>
+void make_heap(RandomIt first, RandomIt second, Compare comp) {
+    auto n = second - first;
+    for (int i = (n / 2) - 1; i >= 0; --i) {
+        heapify(i, n, arr);
+    }
+}
 
 template<class RandomIt, class Compare>
 void insertion_sort(RandomIt first, RandomIt second, Compare comp) {
