@@ -72,10 +72,10 @@ void qsort(int first, int second, std::vector<int>& arr) {
 }
 
 template<typename It>
-std::pair<It, bool> partision(It first, It second) {
+It partision(It first, It second) {
     auto n = second - first;
     if (n == 0)
-        return { first, false };
+        return first;
     auto pivot = *second;
 
     auto i = first - 1;
@@ -89,7 +89,7 @@ std::pair<It, bool> partision(It first, It second) {
         }
     }
     std::swap(*(i + 1), *second);
-    return { i + 1, true };
+    return i + 1;
 }
 
 
@@ -97,9 +97,7 @@ template<typename It>
 void qsort(It first, It second) {
     // передавай указатель на последний, а не на после последнего
     if (first < second) {
-        auto [p, flag] = partision(first, second);
-        if (!flag)
-            return;
+        auto p = partision(first, second);
         qsort(first, p - 1);
         qsort(p + 1, second);
     }
@@ -116,7 +114,7 @@ void introspective_sort_recursive(It first, It second, int max_depth, int iterat
     else {
         if (iteration == 0)
             second -= 1;
-        auto [p, flag] = partision(first, second);
+        auto p = partision(first, second);
         introspective_sort_recursive(first, p - 1, max_depth - 1, iteration + 1);
         introspective_sort_recursive(p + 1, second, max_depth - 1, iteration + 1);
     }
