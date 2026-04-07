@@ -14,34 +14,34 @@
 //        heap_up(i, arr);
 //    }
 //}
-
-void heapify(int i, int n, std::vector<int>& arr) {
+template<class RandomIt, class Compare>
+void heapify(RandomIt i, int n, RandomIt first, RandomIt second) {
 
     auto largest = i;
 
-    int l = 2 * largest + 1;
-    int r = 2 * largest + 2;
+    auto l = 2 * largest + 1;
+    auto r = 2 * largest + 2;
 
-    if (l < n && arr[l] > arr[largest]) {
+    if (l < n && *l > *largest) {
         largest = l;
     }
 
-    if (r < n && arr[r] > arr[largest]) {
+    if (r < n && *r > *largest) {
         largest = r;
     }
 
     if (largest != i) {
-        std::swap(arr[largest], arr[i]);
+        std::swap(*largest, *i);
 
-        heapify(largest, n, arr);
+        heapify(largest, n, first, second);
     }
 }
 
 template<class RandomIt, class Compare>
 void make_heap(RandomIt first, RandomIt second, Compare comp) {
     auto n = second - first;
-    for (int i = (n / 2) - 1; i >= 0; --i) {
-        heapify(i, n, arr);
+    for (auto i = first + (n / 2) - 1; i != second; --i) {
+        heapify(i, n, first, second);
     }
 }
 

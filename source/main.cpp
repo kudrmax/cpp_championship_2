@@ -18,7 +18,8 @@ int main() {
     std::vector<int> vec = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
     print_vector(vec);
 //    heap_up(1, vec);
-    make_heap(vec.size(), vec);
+//    make_heap(vec.size(), vec);
+    void make_heap<std::vector<int>, >(vec.begin(), vec.end(), std::less<int>());
 //    std::make_heap(vec.begin(), vec.end());
     print_vector(vec);
     return 0;
